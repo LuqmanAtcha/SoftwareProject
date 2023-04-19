@@ -1,55 +1,38 @@
-/**
- * SYST 17796 Project Base code.
- * Students can modify and extend to implement their game.
- * Add your name as an author and the date!
- */
 package projectcode;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-/**
- * A concrete class that represents any grouping of cards for a Game. HINT, you might want to subclass this more than
- * once. The group of cards has a maximum size attribute which is flexible for reuse.
- *
- * @author dancye
- * @author Paul Bonenfant Jan 2020
- */
+import java.util.*;
 public class GroupOfCards {
+    private List<Card> cards;
 
-    //The group of cards, stored in an ArrayList
-    private ArrayList<Card> cards;
-    private int size;//the size of the grouping
-
-    public GroupOfCards(int size) {
-        this.size = size;
+    public GroupOfCards() {
+        // Populate the deck with cards
+        cards = new ArrayList<Card>();
+        for (String suit : new String[] {"Hearts", "Diamonds", "Clubs", "Spades"}) {
+            for (String rank : new String[] {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"}) {
+                int value = 0;
+                try {
+                value = Integer.parseInt(rank);
+                }
+                catch(Exception e){
+                if (rank.equals("Jack") || rank.equals("Queen") || rank.equals("King")) {
+                    value = 10;
+                } else if (rank.equals("Ace")) {
+                    value = 11;
+                }
+            }
+                Card card = new Card(suit, rank, value);
+                cards.add(card);
+            }
+        }
     }
-
-    /**
-     * A method that will get the group of cards as an ArrayList
-     *
-     * @return the group of cards.
-     */
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-
     public void shuffle() {
         Collections.shuffle(cards);
     }
 
-    /**
-     * @return the size of the group of cards
-     */
-    public int getSize() {
-        return size;
+    public Card dealCard() {
+        return cards.remove(0);
     }
 
-    /**
-     * @param size the max size for the group of cards
-     */
-    public void setSize(int size) {
-        this.size = size;
+    public int cardsRemaining() {
+        return cards.size();
     }
-
-}//end class
+}
